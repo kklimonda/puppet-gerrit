@@ -46,6 +46,7 @@
 #   database_poollimit:
 #   container_heaplimit:
 #   container_javaoptions:
+#   container_startuptimeout:
 #   gc_start_time:
 #     Start time to define the first execution of the git garbage collection
 #   gc_interval:
@@ -220,6 +221,7 @@ class gerrit(
   $database_poollimit = '',
   $container_heaplimit = '',
   $container_javaoptions = '',
+  $container_startuptimeout = '',
   $gc_start_time = '',
   $gc_interval = '',
   $core_loggingbuffersize = '',
