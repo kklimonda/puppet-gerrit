@@ -35,6 +35,8 @@
 #     '' means Puppet should not manage these files.
 #   openidssourl:
 #     The URL to use for OpenID in SSO mode.
+#   openiddomain:
+#     Required domain, used to filter access.
 #   email:
 #     The email address Gerrit should use when sending mail.
 #   smtpserver:
@@ -204,6 +206,7 @@ class gerrit(
   $gerrit_auth_type = 'OPENID_SSO',
   $gerrit_contributor_agreement = true,
   $openidssourl = 'https://login.launchpad.net/+openid',
+  $openiddomain = '',
   $ldap_server = '',
   $ldap_account_base = '',
   $ldap_group_base = '',

@@ -32,6 +32,9 @@
 	enableRunAs = true
 <% if @gerrit_auth_type == 'OPENID_SSO' -%>
 	openIdSsoUrl = <%= @openidssourl %>
+<% if @openiddomain -%>
+	openIdDomain = <%= @openiddomain %>
+<% end -%>
 <% end -%>
 <% if @gerrit_auth_type == 'LDAP' -%>
 [ldap]
