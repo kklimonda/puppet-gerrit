@@ -199,6 +199,11 @@ class gerrit(
   $ssh_dsa_pubkey_contents = '', # If left empty puppet will not create file.
   $ssh_rsa_key_contents = '', # If left empty puppet will not create file.
   $ssh_rsa_pubkey_contents = '', # If left empty puppet will not create file.
+  $ssh_ecdsa_key_contents = '',
+  $ssh_ecdsa_pubkey_contents = '',
+  $ssh_ed25519_disabled      = false, # whether we should advertise ed25519 keys
+  $ssh_ed25519_key_contents = '',
+  $ssh_ed25519_pubkey_contents = '',
   $ssh_project_rsa_key_contents = '', # If left empty will not create file.
   $ssh_project_rsa_pubkey_contents = '', # If left empty will not create file.
   $ssh_replication_rsa_key_contents = '', # If left emptry will not create files.
@@ -602,6 +607,58 @@ class gerrit(
       group   => 'gerrit2',
       mode    => '0644',
       content => $ssh_dsa_pubkey_contents,
+      replace => true,
+      require => File['/home/gerrit2/review_site/etc']
+    }
+  }
+
+  if $ssh_ecdsa_key_contents != '' {
+    file { '/home/gerrit2/review_site/etc/ssh_host_ecdsa_key':
+      owner   => 'gerrit2',
+      group   => 'gerrit2',
+      mode    => '0600',
+      content => $ssh_ecdsa_key_contents,
+      replace => true,
+      require => File['/home/gerrit2/review_site/etc']
+    }
+  }
+
+  if $ssh_ecdsa_pubkey_contents != '' {
+    file { '/home/gerrit2/review_site/etc/ssh_host_ecdsa_key.pub':
+      owner   => 'gerrit2',
+      group   => 'gerrit2',
+      mode    => '0644',
+      content => $ssh_ecdsa_pubkey_contents,
+      replace => true,
+      require => File['/home/gerrit2/review_site/etc']
+    }
+  }
+
+  if $ssh_ed25519_disabled == true {
+    $ed25519_ensure = absent
+  } else {
+    $ed25519_ensure = present
+  }
+
+  if $ssh_ed25519_key_contents != '' {
+    file { '/home/gerrit2/review_site/etc/ssh_host_ed25519_key':
+      owner   => 'gerrit2',
+      group   => 'gerrit2',
+      mode    => '0600',
+      ensure  => $ed25519_ensure,
+      content => $ssh_ed25519_key_contents,
+      replace => true,
+      require => File['/home/gerrit2/review_site/etc']
+    }
+  }
+
+  if $ssh_ed25519_pubkey_contents != '' {
+    file { '/home/gerrit2/review_site/etc/ssh_host_ed25519_key.pub':
+      owner   => 'gerrit2',
+      group   => 'gerrit2',
+      mode    => '0644',
+      ensure  => $ed25519_ensure,
+      content => $ssh_ed25519_pubkey_contents,
       replace => true,
       require => File['/home/gerrit2/review_site/etc']
     }
