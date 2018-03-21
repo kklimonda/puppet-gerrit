@@ -810,6 +810,13 @@ class gerrit(
     refreshonly => true,
     logoutput   => true,
   }
+  exec { 'gerrit-delete-ed25519-keys':
+    user    => 'gerrit2',
+    command => "/bin/rm ${gerrit_site}/etc/ssh_host_ed25519_key",
+    subscribe   => [Exec['gerrit-initial-init'], Exec['gerrit-init']],
+    refreshonly => true,
+    logoutput   => true,
+  }
 
   # We can now online reindex, so no need to run this on upgrades by
   # default.
